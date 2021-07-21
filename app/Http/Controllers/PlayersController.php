@@ -20,12 +20,15 @@ class PlayersController extends Controller
 
         $query = Player::query();
         if ($searchedText !== null) {
-            // TODO: separate and search by searched word? I am not sure if that is the wanted result
+            $words = explode(' ',$searchedText);
+            // Separate and search by searched word? I am not sure if that is the wanted result but i
+            foreach($words as $word) {
+                $query->where(function($query) use ($word) {
+                    $query->where('nickname', 'LIKE', '%' . $word . '%')
+                        ->orWhere('status', 'LIKE', '%' . $word . '%');
+                });
+            }
 
-            $query->orWhere(function($query) use ($searchedText) {
-               $query->where('nickname', 'LIKE', '%' . $searchedText . '%')
-                   ->orWhere('status', 'LIKE', '%' . $searchedText . '%');
-            });
         }
 
         return $query->paginate($perPage);
