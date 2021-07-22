@@ -16,3 +16,9 @@ php artisan key:generate
 php artisan migrate
 php artisan serve
 ```
+
+### Tests
+Para correr los tests
+```sh
+php artisan test
+```
